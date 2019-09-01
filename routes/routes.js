@@ -1,6 +1,6 @@
 const Express = require('express');
 const App = Express();
-const Users = require('./controllers/Users');
+const Users = require('./controllers/users');
 
 App.use('/users', Users);
 
