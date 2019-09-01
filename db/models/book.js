@@ -6,7 +6,6 @@ module.exports = (sequelize, DataTypes) => {
     releaseDate: DataTypes.DATE
   }, {});
   Book.associate = function(models) {
-    // associations can be defined here
     Book.belongsToMany(models.Author, {through: 'BookAuthor'});
     Book.belongsToMany(models.Loan, {through: 'UserBook'});
   };

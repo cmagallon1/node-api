@@ -9,26 +9,26 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING,
-        allowNull:false
+        allowNull: false,
+        type: Sequelize.STRING
       },
       editorial: {
-        type: Sequelize.STRING,
-        allowNull:false
+        allowNull: true,
+        type: Sequelize.STRING
       },
       releaseDate: {
-        type: Sequelize.DATE,
-        allowNull:false
+        allowNull: false,
+        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-        allowNull:false
+        type: 'TIMESTAMP',
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-        allowNull:false
+        type: 'TIMESTAMP',
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     });
   },

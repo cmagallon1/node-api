@@ -4,14 +4,35 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     firstSurname: DataTypes.STRING,
     secondSurname: DataTypes.STRING,
-    phone: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
+    phone: {
+      type: DataTypes.STRING,
+      validate: {
+        isNumeric: true
+      }
+    },
+    email: {
+      type: DataTypes.STRING,
+      validate: {
+        isEmail: true
+      }
+    },
+    password: DataTypes.STRING,
+    roleId:{
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Role',
+        key: 'id'
+      },
+      validate:{
+        isIn: [[1,2,3]]
+      }
+    }
   }, {});
   User.associate = function(models) {
-    // associations can be defined here
     User.belongsTo(models.Role);
-    User.hasMany(models.Loans)
+    // User.hasMany(models.Loans);
+    User.hasMany(models.Loan);
   };
   return User;
 };

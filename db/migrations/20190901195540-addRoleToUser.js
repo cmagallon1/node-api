@@ -18,7 +18,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    //this method is to be able to revert the migration
     return queryInterface.removeColumn(
       'Users',
       'roleId'

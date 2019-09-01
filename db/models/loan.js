@@ -2,12 +2,19 @@
 module.exports = (sequelize, DataTypes) => {
   const Loan = sequelize.define('Loan', {
     loanDate: DataTypes.DATE,
-    limitDate: DataTypes.DATE
+    limitDate: DataTypes.DATE,
+    userId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Users',
+        key: 'id'
+      },
+      allowNull: false
+    }
   }, {});
   Loan.associate = function(models) {
-    // associations can be defined here
     Loan.belongsTo(models.User);
-    Loan.belongsToMany(model.Book, {through: 'UserBook'});
+    Loan.belongsToMany(models.Book, {through: 'UserBook'});
   };
   return Loan;
 };
