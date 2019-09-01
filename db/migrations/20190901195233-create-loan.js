@@ -9,9 +9,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       loanDate: {
+        allowNull: false,
         type: Sequelize.DATE
       },
       limitDate: {
+        allowNull: false,
         type: Sequelize.DATE
       },
       createdAt: {
