@@ -19,7 +19,9 @@
   },
   "homepage": "https://github.com/cmagallon1/node-api#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "mysql2": "^1.7.0",
     "pm2": "^3.5.1",
     "sequelize": "^5.18.0",
