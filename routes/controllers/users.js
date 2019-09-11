@@ -23,7 +23,7 @@ App.get('/', (req, res)=>{
 
 App.get('/:id', (req, res) => {
     let id = req.params.id;
-    User.findByPk(id).then(user => {
+    User.findOne({where: {id}}).then(user => {
         if(!user) {
             return res.status(400).json({
                 ok:false,
