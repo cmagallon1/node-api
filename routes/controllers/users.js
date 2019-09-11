@@ -28,7 +28,7 @@ App.get('/:id', (req, res) => {
             return res.status(400).json({
                 ok:false,
                 error:{
-                    message: "No se encuentra el usuario especificado"
+                    message: "It wasn't found the specified user"
                 }
             });
         }
