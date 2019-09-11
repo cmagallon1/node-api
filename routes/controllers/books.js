@@ -1,17 +1,18 @@
 const Express = require('express');
 const App = Express();
 const BodyParser = require('body-parser');
-const { Author } = require('../../db/models/index');
+const { Book } = require('../../db/models/index');
 
 App.use(BodyParser.urlencoded({extended: false}));
 
 App.use(BodyParser.json());
-
+//TODO: Add token
+//TODO: Add pagination, same in all controllers
 App.get('/', (req, res) => {
-    Author.findAll().then(authors => {
+    Book.findAll().then(Books => {
         return res.json({
             ok: true,
-            authors
+            Books
         });
     })
     .catch(err => {
@@ -24,18 +25,18 @@ App.get('/', (req, res) => {
 
 App.get('/:id', (req, res) => {
     let id = req.params.id;
-    Author.findOne({where: {id}}).then(author => {
-        if(!author){
+    Book.findOne({where: {id}}).then(Book => {
+        if(!Book){
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: "It wasn't found the specified author"
+                    message: "It wasn't found the specified book"
                 }
             });
         }
         return res.json({
             ok: false,
-            author
+            Book
         })
     })
     .catch(err => {
@@ -48,14 +49,15 @@ App.get('/:id', (req, res) => {
 
 App.post('/', (req, res) => {
     let body = req.body;
-    let author = {
+    let book = {
         name: body.name,
-        lastname: body.lastname
+        editorial: body.editorial,
+        releaseDate: body.releaseDate,
     };
-    Author.create(author).then(author => {
+    Book.create(book).then(Book => {
         return res.json({
             ok: true,
-            author
+            Book
         });
     })
     .catch(err => {
@@ -69,14 +71,15 @@ App.post('/', (req, res) => {
 App.put('/:id', (req, res) => {
     let id = req.params.id;
     let body = req.body;
-    let author = {
+    let book = {
         name: body.name,
-        lastname: body.lastname
+        editorial: body.editorial,
+        releaseDate: body.releaseDate,
     };
-    Author.update(author, {where: {id}}).then(author => {
+    Book.update(book, {where: {id}}).then(Book => {
         return res.json({
             ok: true,
-            author
+            Book
         });
     })
     .catch(err => {
@@ -89,11 +92,11 @@ App.put('/:id', (req, res) => {
 
 App.delete('/:id', (req, res) => {
     let id = req.params.id;
-    Author.destroy({where: {id}}).then(author => {
+    Book.destroy({where: {id}}).then(Book => {
         return res.json({
             ok: true,
-            author
-        })
+            Book
+        });
     })
     .catch(err => {
         return res.status(400).json({
