@@ -9,10 +9,10 @@ App.use(BodyParser.json());
 //TODO: Add token
 //TODO: Add pagination, same in all controllers
 App.get('/', (req, res) => {
-    Book.findAll().then(Books => {
+    Book.findAll().then(books => {
         return res.json({
             ok: true,
-            Books
+            books
         });
     })
     .catch(err => {
@@ -25,8 +25,8 @@ App.get('/', (req, res) => {
 
 App.get('/:id', (req, res) => {
     let id = req.params.id;
-    Book.findOne({where: {id}}).then(Book => {
-        if(!Book){
+    Book.findOne({where: {id}}).then(book => {
+        if(!book){
             return res.status(400).json({
                 ok: false,
                 err: {
@@ -35,8 +35,8 @@ App.get('/:id', (req, res) => {
             });
         }
         return res.json({
-            ok: false,
-            Book
+            ok: true,
+            book
         })
     })
     .catch(err => {
@@ -54,10 +54,10 @@ App.post('/', (req, res) => {
         editorial: body.editorial,
         releaseDate: body.releaseDate,
     };
-    Book.create(book).then(Book => {
+    Book.create(book).then(book => {
         return res.json({
             ok: true,
-            Book
+            book
         });
     })
     .catch(err => {
@@ -76,10 +76,10 @@ App.put('/:id', (req, res) => {
         editorial: body.editorial,
         releaseDate: body.releaseDate,
     };
-    Book.update(book, {where: {id}}).then(Book => {
+    Book.update(book, {where: {id}}).then(book => {
         return res.json({
             ok: true,
-            Book
+            book
         });
     })
     .catch(err => {
@@ -92,10 +92,10 @@ App.put('/:id', (req, res) => {
 
 App.delete('/:id', (req, res) => {
     let id = req.params.id;
-    Book.destroy({where: {id}}).then(Book => {
+    Book.destroy({where: {id}}).then(book => {
         return res.json({
             ok: true,
-            Book
+            book
         });
     })
     .catch(err => {
