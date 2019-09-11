@@ -29,7 +29,7 @@ App.get('/:id', (req, res) => {
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: "No se encuentra el usuario especificado"
+                    message: "It wasn't found the specified author"
                 }
             });
         }
@@ -73,7 +73,7 @@ App.put('/:id', (req, res) => {
         name: body.name,
         lastname: body.lastname
     };
-    Author.update(author, {where: {id}, returning: true}).then(author => {
+    Author.update(author, {where: {id}}).then(author => {
         return res.json({
             ok: true,
             author
