@@ -2,6 +2,7 @@ const Express = require('express');
 const App = Express();
 const BodyParser = require('body-parser');
 const { Author } = require('../../db/models/index');
+const { response } = require('../../services/helpers');
 
 App.use(BodyParser.urlencoded({extended: false}));
 
@@ -9,16 +10,10 @@ App.use(BodyParser.json());
 
 App.get('/', (req, res) => {
     Author.findAll().then(authors => {
-        return res.json({
-            ok: true,
-            authors
-        });
+        return response(res, authors);
     })
     .catch(err => {
-        return res.status(500).json({
-            ok: false,
-            err
-        });
+        return response(res, err, 500)
     })
 });
 
@@ -26,23 +21,12 @@ App.get('/:id', (req, res) => {
     let id = req.params.id;
     Author.findOne({where: {id}}).then(author => {
         if(!author){
-            return res.status(400).json({
-                ok: false,
-                err: {
-                    message: "It wasn't found the specified author"
-                }
-            });
+            return response(res, { message: "It wasn't found the specified author" }, 400);
         }
-        return res.json({
-            ok: false,
-            author
-        })
+        return response(res, author);
     })
     .catch(err => {
-        return res.status(500).json({
-            ok: false,
-            err
-        });
+        return response(res, err, 500);
     })
 });
 
@@ -53,16 +37,10 @@ App.post('/', (req, res) => {
         lastname: body.lastname
     };
     Author.create(author).then(author => {
-        return res.json({
-            ok: true,
-            author
-        });
+        return response(res, author);
     })
     .catch(err => {
-        return res.status(400).json({
-            ok: false,
-            err
-        });
+        return response(res, err, 400);
     })
 });
 
@@ -74,32 +52,20 @@ App.put('/:id', (req, res) => {
         lastname: body.lastname
     };
     Author.update(author, {where: {id}}).then(author => {
-        return res.json({
-            ok: true,
-            author
-        });
+        return response(res, author);
     })
     .catch(err => {
-        return res.status(400).json({
-            ok: false,
-            err
-        });
+        return response(res, err, 400);
     })
 });
 
 App.delete('/:id', (req, res) => {
     let id = req.params.id;
     Author.destroy({where: {id}}).then(author => {
-        return res.json({
-            ok: true,
-            author
-        })
+        return response(res, author);
     })
     .catch(err => {
-        return res.status(400).json({
-            ok: false,
-            err
-        });
+        return response(res, err, 400);
     });
 });
 
