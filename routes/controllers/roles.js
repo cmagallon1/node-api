@@ -2,6 +2,7 @@ const Express = require('express');
 const App = Express();
 const BodyParser = require('body-parser');
 const { Role } = require('../../db/models/index');
+const { response } = require('../../services/helpers');
 
 App.use(BodyParser.urlencoded({extended: false}));
 
@@ -9,16 +10,10 @@ App.use(BodyParser.json());
 
 App.get('/', (req, res) => {
     Role.findAll().then(roles => {
-        return res.json({
-            ok: true,
-            roles
-        });
+        return response(res, roles);
     })
     .catch(err => {
-        return res.status(500).json({
-            ok: false,
-            err
-        });
+        return response(res, err, 500);
     })
 });
 
@@ -26,23 +21,12 @@ App.get('/:id', (req, res) => {
     let id = req.params.id;
     Role.findOne({where: {id}}).then(role => {
         if(!role){
-            return res.status(400).json({
-                ok: false,
-                err: {
-                    message: "It wasn't found the specified role"
-                }
-            });
+            return response(res, {message: "It wasn't found the specified role"}, 400);
         }
-        return res.json({
-            ok: true,
-            role
-        })
+        return response(res, role);
     })
     .catch(err => {
-        return res.status(500).json({
-            ok: false,
-            err
-        });
+        return response(res, err, 500);
     })
 });
 
@@ -52,16 +36,10 @@ App.post('/', (req, res) => {
         role: body.role,
     };
     Role.create(role).then(role => {
-        return res.json({
-            ok: true,
-            role
-        });
+        return response(res, role);
     })
     .catch(err => {
-        return res.status(400).json({
-            ok: false,
-            err
-        });
+        return response(res, err, 400);
     })
 });
 
@@ -72,32 +50,20 @@ App.put('/:id', (req, res) => {
         role: body.role,
     };
     Role.update(role, {where: {id}}).then(role => {
-        return res.json({
-            ok: true,
-            role
-        });
+        return response(res, role);
     })
     .catch(err => {
-        return res.status(400).json({
-            ok: false,
-            err
-        });
+        return response(res, err, 400);
     })
 });
 
 App.delete('/:id', (req, res) => {
     let id = req.params.id;
     Role.destroy({where: {id}}).then(role => {
-        return res.json({
-            ok: true,
-            role
-        });
+        return response(res, role);
     })
     .catch(err => {
-        return res.status(400).json({
-            ok: false,
-            err
-        });
+       return response(res, err, 400)
     });
 });
 

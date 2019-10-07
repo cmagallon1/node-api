@@ -2,6 +2,7 @@ const Express = require('express');
 const App = Express();
 const BodyParser = require('body-parser');
 const { User } = require('../../db/models/index');
+const { response } = require('../../services/helpers');
 
 App.use(BodyParser.urlencoded({extended: false}));
 
@@ -9,15 +10,9 @@ App.use(BodyParser.json());
 
 App.get('/', (req, res)=>{
     User.findAll().then(users => {
-       return res.json({
-           ok: true,
-           users
-       });
+       return response(res, users);
    }).catch(err => {
-        return res.status(500).json({
-            ok:false,
-            error: err
-        });
+       return response(res, err, 500);
    })
 });
 
@@ -25,22 +20,11 @@ App.get('/:id', (req, res) => {
     let id = req.params.id;
     User.findOne({where: {id}}).then(user => {
         if(!user) {
-            return res.status(400).json({
-                ok:false,
-                error:{
-                    message: "It wasn't found the specified user"
-                }
-            });
+            return response(res, { message: "It wasn't found the specified user" }, 400);
         }
-        return res.json({
-            ok:true,
-            user
-        });
+        return response(res, user);
     }).catch(err => {
-        return res.status(500).json({
-            ok:false,
-            error: err
-        });
+        return response(res, err, 500);
     });
 });
 
@@ -56,15 +40,9 @@ App.post('/', (req, res) => {
         roleId: body.roleId,
     };
     User.create(user).then(user => {
-        return res.json({
-            ok:true,
-            user
-        });
+        return response(res, user);
     }).catch(err => {
-        return res.status(400).json({
-            ok:false,
-            err
-        });
+        return response(res, err, 400);
     });
 });
 
@@ -81,35 +59,19 @@ App.put('/:id', (req, res) => {
         roleId: body.roleId,
     };
     User.update(user, {where: {id}}).then(user => {
-        return res.json({
-            ok:true,
-            user
-        });
+        return response(res, user);
     }) .catch(err => {
-        return res.status(400).json({
-            ok:false,
-            error:{
-                message: err
-            }
-        });
+        return response(res, err, 400);
     });
 });
 
 App.delete('/:id', (req, res) => {
     let id = req.params.id;
     User.destroy({where: {id}}).then(user => {
-        return res.json({
-            ok:true,
-            user
-        });
+        return response(res, user);
     })
     .catch(err => {
-        return res.status(400).json({
-            ok:false,
-            error:{
-                message: err
-            }
-        });
+        return response(res, err, 400);
     });
 });
 
