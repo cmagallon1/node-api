@@ -17,6 +17,8 @@ module.exports = {
           },
           key: 'id'
         },
+        onDelete: 'no action',
+        onUpdate: 'cascade',
         allowNull: false
       },
       loanId:{
@@ -27,6 +29,8 @@ module.exports = {
           },
           key: 'id'
         },
+        onUpdate: 'cascade',
+        onDelete: 'no action',
         allowNull: false
       },
       createdAt: {
