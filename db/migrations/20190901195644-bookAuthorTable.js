@@ -17,7 +17,9 @@ module.exports = {
             tableName: 'Books',
           },
           key: 'id'
-        }
+        },
+        onUpdate:'cascade',
+        onDelete:'no action'
       },
       authorId:{
         type: Sequelize.INTEGER,
@@ -27,7 +29,9 @@ module.exports = {
             tableName: 'Authors',
           },
           key: 'id'
-        }
+        },
+        onUpdate:'cascade',
+        onDelete:'no action'
       },
       createdAt: {
         allowNull: false,
